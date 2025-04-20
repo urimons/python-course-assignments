@@ -16,4 +16,4 @@ circumference = 2 * math.pi * radius
 
 # Print the results
 print(f"The area of your circle is: {area}, and the circumference is: {circumference}")
-print("I really don't see the point of this exercise")
+print("Also, I really don't see the point of this exercise")
