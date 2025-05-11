@@ -1,0 +1,45 @@
+import random
+
+def guess_number():
+    # Computer “thinks” of a number between 1 and 20
+    number = random.randint(1, 20)
+    guess_count = 0
+
+    while True:
+        # First guess vs. retries
+        if guess_count == 0:
+            prompt = "I'm thinking of a number between 1 and 20. Care to guess?"
+        else:
+            prompt = "Common, let's give it another try! What's your guess?"
+        
+        user_input = input(prompt).strip().lower()
+        # Quit condition
+        if user_input == 'x':
+            print("Bye Bye, see you next time!")
+            return
+
+        # Try converting to integer
+        try:
+            guess = int(user_input)
+        except ValueError:
+            print("Please enter a valid integer.")
+            continue
+
+        # Compare and give feedback
+        if guess < number:
+            print("Sorry, the number you chose is too low!")
+        elif guess > number:
+            print("Sorry! the number you chose is too high!")
+        else:
+            print("Correct! You guessed it!")
+            break  # exit the loop
+
+        # count only valid, wrong attempts
+        guess_count += 1
+
+    # Game ends after one guess
+    print("Game over.")
+
+if __name__ == "__main__":
+    guess_number()
+
