@@ -1,0 +1,66 @@
+import random
+
+def guess_number():
+    # Welcome message with instructions
+    print(
+        "Hello! Welcome to the Number Guessing Game! I will think of a number between 1 and 20, "
+        "and your job is to guess that number! Remember, you can stop the game by pressing 'x' (coward!), "
+        "'s' if you want to know the chosen number (cheater!) and 'd' if you want to get into and out of debug mode (debuger?)."
+    )
+
+    # Computer “thinks” of a number between 1 and 20
+    number = random.randint(1, 20)
+    guess_count = 0
+    debug_mode = False
+
+    while True:
+        # If debug mode is on, reveal the number
+        if debug_mode:
+            print(f"[DEBUG] The secret number is: {number}")
+
+        # Build the prompt without inline hints
+        if guess_count == 0:
+            prompt = "Let's start:\nI'm thinking of a number between 1 and 20. Care to guess? "
+        else:
+            prompt = "Common, let's give it another try! What's your guess? "
+
+        user_input = input(prompt).strip().lower()
+
+        # Toggle debug mode
+        if user_input == 'd':
+            debug_mode = not debug_mode
+            print(f"Debug mode {'ON' if debug_mode else 'OFF'}")
+            continue
+
+        # Quit condition
+        if user_input == 'x':
+            print("Bye Bye, see you next time :)")
+            return
+
+        # Cheat condition
+        if user_input == 's':
+            print(f"Pssst… the number is: {number}. cheater!")
+            continue
+
+        # Convert to integer guess
+        try:
+            guess = int(user_input)
+        except ValueError:
+            print("Please enter a valid integer.")
+            continue
+
+        # Provide feedback
+        if guess < number:
+            print("Sorry, the number you chose is too low!")
+        elif guess > number:
+            print("Sorry! the number you chose is too high!")
+        else:
+            print("Correct! You guessed it!")
+            break
+
+        guess_count += 1
+
+    print("Game over.")
+
+if __name__ == "__main__":
+    guess_number()
