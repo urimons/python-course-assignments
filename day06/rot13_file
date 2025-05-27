@@ -1,0 +1,26 @@
+import sys
+import codecs
+
+def rot13_file(filepath):
+    try:
+        # Read the file content
+        with open(filepath, 'r', encoding='utf-8') as f:
+            original = f.read()
+
+        # Apply ROT13
+        transformed = codecs.encode(original, 'rot_13')
+
+        # Overwrite the file with ROT13 content
+        with open(filepath, 'w', encoding='utf-8') as f:
+            f.write(transformed)
+
+        print(f"File '{filepath}' was successfully transformed using ROT13.")
+    except Exception as e:
+        print(f"Error processing file '{filepath}': {e}")
+
+if __name__ == "__main__":
+    if len(sys.argv) != 2:
+        print("Usage: python rot13_file.py <file_path>")
+        sys.exit(1)
+
+    rot13_file(sys.argv[1])
