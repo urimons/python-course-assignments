@@ -1,0 +1,34 @@
+# count_digits_in_file.py
+
+from collections import Counter
+import sys
+import os
+
+def count_digits(file_path):
+    try:
+        with open(file_path, 'r', encoding='utf-8') as f:
+            content = f.read()
+
+        digits = [ch for ch in content if ch.isdigit()]
+        counts = Counter(digits)
+
+        # Save report in the same directory as the input file
+        output_path = os.path.join(os.path.dirname(file_path), "report.txt")
+        with open(output_path, 'w', encoding='utf-8') as out:
+            for digit in sorted(counts.keys()):
+                out.write(f"{digit}: {counts[digit]}\n")
+
+        print(f"✅ Digit count written to {output_path}")
+
+    except FileNotFoundError:
+        print(f"❌ File not found: {file_path}")
+    except Exception as e:
+        print(f"❌ Error: {e}")
+
+if __name__ == "__main__":
+    if len(sys.argv) != 2:
+        print("Usage: python count_digits_in_file.py <path_to_file>")
+        sys.exit(1)
+
+    input_path = sys.argv[1]
+    count_digits(input_path)
