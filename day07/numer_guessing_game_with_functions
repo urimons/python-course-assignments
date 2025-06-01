@@ -1,0 +1,24 @@
+import random
+
+def generate_random_number(min_val=1, max_val=20):
+    return random.randint(min_val, max_val)
+
+def get_user_guess():
+    return int(input("Please guess a number between 1 to 20: "))
+
+def evaluate_guess(guess, target):
+    if guess < target:
+        return "Your chosen number is too low!"
+    elif guess > target:
+        return "Your chosen number is too high!"
+    else:
+        return "Correct answer! What are the chances?!"
+
+def play_guessing_game():
+    target = generate_random_number()
+    guess = get_user_guess()
+    result = evaluate_guess(guess, target)
+    print(result)
+
+# Run the game
+play_guessing_game()
