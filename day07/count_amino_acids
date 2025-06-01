@@ -1,0 +1,65 @@
+import sys
+from collections import Counter
+
+# Codon table
+codon_table = {
+    'Phe': ['TTT', 'TTC'],
+    'Leu': ['TTA', 'TTG', 'CTT', 'CTC', 'CTA', 'CTG'],
+    'Ile': ['ATT', 'ATC', 'ATA'],
+    'Met': ['ATG'],
+    'Val': ['GTT', 'GTC', 'GTA', 'GTG'],
+    'Ser': ['TCT', 'TCC', 'TCA', 'TCG', 'AGT', 'AGC'],
+    'Pro': ['CCT', 'CCC', 'CCA', 'CCG'],
+    'Thr': ['ACT', 'ACC', 'ACA', 'ACG'],
+    'Ala': ['GCT', 'GCC', 'GCA', 'GCG'],
+    'Tyr': ['TAT', 'TAC'],
+    'His': ['CAT', 'CAC'],
+    'Gln': ['CAA', 'CAG'],
+    'Asn': ['AAT', 'AAC'],
+    'Lys': ['AAA', 'AAG'],
+    'Asp': ['GAT', 'GAC'],
+    'Glu': ['GAA', 'GAG'],
+    'Cys': ['TGT', 'TGC'],
+    'Trp': ['TGG'],
+    'Arg': ['CGT', 'CGC', 'CGA', 'CGG', 'AGA', 'AGG'],
+    'Gly': ['GGT', 'GGC', 'GGA', 'GGG'],
+    'STOP': ['TAA', 'TAG', 'TGA']
+}
+
+# Convert to codon -> amino acid map
+codon_to_amino = {}
+for amino_acid, codons in codon_table.items():
+    for codon in codons:
+        codon_to_amino[codon] = amino_acid
+
+def read_fasta_sequence(file_path):
+    with open(file_path, 'r') as f:
+        lines = f.readlines()
+    sequence = ''.join(line.strip() for line in lines if not line.startswith('>'))
+    return sequence.upper()
+
+def count_amino_acids_from_sequence(sequence):
+    amino_acid_counts = Counter()
+    for i in range(0, len(sequence) - 2, 3):
+        codon = sequence[i:i+3]
+        if codon in codon_to_amino:
+            amino_acid = codon_to_amino[codon]
+            if amino_acid != 'STOP':
+                amino_acid_counts[amino_acid] += 1
+    return amino_acid_counts
+
+def main():
+    if len(sys.argv) != 2:
+        print("Usage: python count_amino_acids.py <fasta_file>")
+        sys.exit(1)
+
+    fasta_path = sys.argv[1]
+    sequence = read_fasta_sequence(fasta_path)
+    amino_acid_counts = count_amino_acids_from_sequence(sequence)
+
+    print("Amino Acid Counts:")
+    for amino_acid, count in sorted(amino_acid_counts.items()):
+        print(f"{amino_acid}: {count}")
+
+if __name__ == "__main__":
+    main()
